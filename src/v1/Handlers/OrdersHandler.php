@@ -12,9 +12,11 @@ use CanisLupus\ApiClients\PagSeguro\v1\PagSeguroApiConfig;
 use CanisLupus\ApiClients\PagSeguro\v1\PagSeguroApiHandler;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\AddressResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\AmountResource;
+use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\BoletoResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\CardResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\CustomerResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\HolderResource;
+use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\InstructionLinesResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\ItemResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\LinkResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\PaymentMethodResource;
@@ -184,6 +186,31 @@ class OrdersHandler extends PagSeguroApiHandler
                         }
 
                         $paymentMethod->setCard($card);
+                    }
+
+                    if (isset($paymentMethodData['boleto'])) {
+                        $boletoData = $paymentMethodData['boleto'];
+                        $boleto = new BoletoResource();
+                        $boleto->setId($boletoData['id'] ?? null);
+                        $boleto->setBarcode($boletoData['barcode'] ?? null);
+                        $boleto->setFormattedBarcode($boletoData['formatted_barcode'] ?? null);
+                        $boleto->setDueDate($boletoData['due_date'] ?? null);
+                        $boleto->setInstructionLines(
+                            (new InstructionLinesResource())
+                                ->setLine1($boletoData['instruction_lines']['line_1'] ?? null)
+                                ->setLine2($boletoData['instruction_lines']['line_2'] ?? null)
+                        );
+
+                        if (isset($boletoData['holder'])) {
+                            $holderData = $boletoData['holder'];
+                            $holder = new HolderResource($holderData['name']);
+                            $holder->setTaxId($holderData['tax_id'] ?? null);
+                            $holder->setEmail($holderData['email'] ?? null);
+
+                            $boleto->setHolder($holder);
+                        }
+
+                        $paymentMethod->setBoleto($boleto);
                     }
 
                     $charge->setPaymentMethod($paymentMethod);

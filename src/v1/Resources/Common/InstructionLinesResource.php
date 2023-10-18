@@ -15,14 +15,14 @@ class InstructionLinesResource
      * 1-75 caracteres.
      * Exemplo: Pagamento processado para DESC Fatura
      */
-    protected ?string $line1 = null;
+    protected ?string $line_1 = null;
 
     /**
      * Segunda linha de instruções sobre o pagamento do Boleto.
      * 1-75 caracteres.
      * Exemplo: Via PagBank
      */
-    protected ?string $line2 = null;
+    protected ?string $line_2 = null;
 
 
     /* GETTERS/SETTERS */
@@ -32,16 +32,16 @@ class InstructionLinesResource
      */
     public function getLine1(): ?string
     {
-        return $this->line1;
+        return $this->line_1;
     }
 
     /**
-     * @param string|null $line1
+     * @param string|null $line_1
      * @return InstructionLinesResource
      */
-    public function setLine1(?string $line1): InstructionLinesResource
+    public function setLine1(?string $line_1): InstructionLinesResource
     {
-        $this->line1 = $line1;
+        $this->line_1 = $line_1;
         return $this;
     }
 
@@ -50,16 +50,16 @@ class InstructionLinesResource
      */
     public function getLine2(): ?string
     {
-        return $this->line2;
+        return $this->line_2;
     }
 
     /**
-     * @param string|null $line2
+     * @param string|null $line_2
      * @return InstructionLinesResource
      */
-    public function setLine2(?string $line2): InstructionLinesResource
+    public function setLine2(?string $line_2): InstructionLinesResource
     {
-        $this->line2 = $line2;
+        $this->line_2 = $line_2;
         return $this;
     }
 }
