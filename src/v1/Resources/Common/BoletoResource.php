@@ -9,6 +9,9 @@ class BoletoResource
 {
     use Arrayable;
 
+    protected ?string $id = null;
+    protected ?string $barcode = null;
+    protected ?string $formattedBarcode = null;
 
     /**
      * Data de vencimento do Boleto. Formato: “yyyy-MM-dd”.
@@ -29,6 +32,60 @@ class BoletoResource
 
 
     /* GETTERS/SETTERS */
+
+    /**
+     * @return string|null
+     */
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string|null $id
+     * @return BoletoResource
+     */
+    public function setId(?string $id): BoletoResource
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getBarcode(): ?string
+    {
+        return $this->barcode;
+    }
+
+    /**
+     * @param string|null $barcode
+     * @return BoletoResource
+     */
+    public function setBarcode(?string $barcode): BoletoResource
+    {
+        $this->barcode = $barcode;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFormattedBarcode(): ?string
+    {
+        return $this->formattedBarcode;
+    }
+
+    /**
+     * @param string|null $formattedBarcode
+     * @return BoletoResource
+     */
+    public function setFormattedBarcode(?string $formattedBarcode): BoletoResource
+    {
+        $this->formattedBarcode = $formattedBarcode;
+        return $this;
+    }
 
     /**
      * @return string|null

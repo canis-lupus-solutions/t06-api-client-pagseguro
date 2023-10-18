@@ -29,4 +29,6 @@ enum ChargeStatusEnum: string
      * Indica que a cobrança foi cancelada.
      */
     case CANCELED = 'CANCELED';
+
+    case WAITING = 'WAITING';
 }
