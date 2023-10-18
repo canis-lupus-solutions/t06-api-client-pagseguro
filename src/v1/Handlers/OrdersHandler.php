@@ -162,7 +162,7 @@ class OrdersHandler extends PagSeguroApiHandler
                     $paymentMethodData = $chargeData['payment_method'];
                     $paymentMethod = new PaymentMethodResource(PaymentMethodEnum::from($paymentMethodData['type']));
                     $paymentMethod->setInstallments($paymentMethodData['installments'] ?? null);
-                    $paymentMethod->setCapture($paymentMethodData['capture'] ?? null);
+                    $paymentMethod->setCapture($paymentMethodData['capture'] ?? true);
                     $paymentMethod->setSoftDescriptor($paymentMethodData['soft_descriptor'] ?? null);
 
                     if (isset($paymentMethodData['card'])) {
