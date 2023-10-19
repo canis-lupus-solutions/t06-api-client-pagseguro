@@ -20,6 +20,7 @@ $clientPagSeguro = new PagSeguroApiClient(
 try {
     // Consultar Pagamento
     $charge = $clientPagSeguro->charges->view('CHAR_A83C8141-B843-4E27-BFD9-C096E7AA6E4C');
+
     echo "<pre>";
     var_dump($charge);
     echo "</pre>";

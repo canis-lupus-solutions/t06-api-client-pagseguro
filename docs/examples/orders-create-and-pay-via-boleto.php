@@ -12,13 +12,11 @@ use CanisLupus\ApiClients\PagSeguro\v1\PagSeguroApiConfig;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\AddressResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\AmountResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\BoletoResource;
-use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\CardResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\CustomerResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\HolderResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\InstructionLinesResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\ItemResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\PaymentMethodResource;
-use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\ShippingResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Orders\ChargeResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Orders\OrderResource;
 
@@ -85,7 +83,6 @@ try {
     var_dump($newOrder);
     echo "</pre>";
     die;
-
 
 } catch (PagSeguroApiException $e) {
     die($e->getMessage());

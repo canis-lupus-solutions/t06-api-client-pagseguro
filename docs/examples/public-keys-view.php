@@ -18,9 +18,13 @@ $clientPagSeguro = new PagSeguroApiClient(
 );
 
 try {
-    // Create
-    $newPublicKey = $clientPagSeguro->publicKeys->create();
+    // Consultar chave pública
+    $publicKey = $clientPagSeguro->publicKeys->view();
 
+    echo "<pre>";
+    var_dump($publicKey);
+    echo "</pre>";
+    die;
 
 } catch (PagSeguroApiException $e) {
     die($e->getMessage());

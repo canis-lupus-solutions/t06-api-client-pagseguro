@@ -142,11 +142,11 @@ Mais exemplos podem ser encontrados na pasta docs/examples
 </tr>
 <tr>
     <td>Total de Endpoints abrangidos</td>
-    <td>3</td>
+    <td>6</td>
 </tr>
 <tr>
     <td>Percentual abrangido</td>
-    <td>8,57%</td>
+    <td>17,14%</td>
 </tr>
 </table>
 
@@ -157,7 +157,7 @@ Mais exemplos podem ser encontrados na pasta docs/examples
 | **Grupo**                        | **Recurso**                                                 | **Situação** |
 |----------------------------------|-------------------------------------------------------------|:------------:|
 | Chaves Públicas                  | [POST] Criar chave pública                                  |     100%     |
-| Chaves Públicas                  | [GET] Consultar chave pública                               |      0%      |
+| Chaves Públicas                  | [GET] Consultar chave pública                               |     100%     |
 | Chaves Públicas                  | [PUT] Alterar chave pública                                 |      0%      |
 | Connect                          | [POST] Criar aplicação                                      |      0%      |
 | Connect                          | [GET] Consultar aplicação                                   |      0%      | 
@@ -170,10 +170,10 @@ Mais exemplos podem ser encontrados na pasta docs/examples
 | Cadastro                         | [POST] Criar conta                                          |      0%      |
 | Cadastro                         | [GET] Consultar conta                                       |      0%      |
 | Pedidos & Pagamentos (Order)     | [POST] Criar pedido                                         |     100%     |
-| Pedidos & Pagamentos (Order)     | [GET] Consultar pedido                                      |      0%      |
+| Pedidos & Pagamentos (Order)     | [GET] Consultar pedido                                      |     100%     |
 | Pedidos & Pagamentos (Order)     | [GET] Consultar pedido através de parâmetros                |      0%      |
 | Pedidos & Pagamentos (Order)     | [POST] Pagar pedido                                         |      0%      |
-| Pedidos & Pagamentos (Order)     | [GET] Consultar pagamento                                   |      0%      |
+| Pedidos & Pagamentos (Order)     | [GET] Consultar pagamento                                   |     100%     |
 | Pedidos & Pagamentos (Order)     | [POST] Capturar pagamento                                   |      0%      |
 | Pedidos & Pagamentos (Order)     | [POST] Cancelar pagamento                                   |      0%      |
 | Pedidos & Pagamentos (Order)     | [POST] Criar sessão de autenticação 3DS                     |      0%      |

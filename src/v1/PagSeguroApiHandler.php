@@ -43,7 +43,7 @@ class PagSeguroApiHandler
      * @param MethodEnum $method
      * @param string $endpoint
      * @param array|null $params
-     *
+     * @param array|null $headers
      * @return array
      * @throws PagSeguroApiException
      */
@@ -89,11 +89,11 @@ class PagSeguroApiHandler
                         $message .= ' PARAMETER_NAME: ' . ($errorMessage['parameter_name'] ?? 'N/A');
                         $message .= ' | ';
                     }
-                    $message = substr($message, 0, strlen($message)-3);
+                    $message = substr($message, 0, strlen($message) - 3);
                 } else {
                     if ($e->getMessage()) {
                         $message = $e->getMessage();
-                    }else{
+                    } else {
                         $message = 'The API returned no message, maybe an Authentication failure';
                     }
                 }
