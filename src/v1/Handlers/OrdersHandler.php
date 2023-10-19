@@ -52,6 +52,23 @@ class OrdersHandler extends PagSeguroApiHandler
         }
     }
 
+    /**
+     * @param string $orderId
+     * @return OrderResource
+     * @throws PagSeguroApiException
+     */
+    public function view(string $orderId): OrderResource
+    {
+        try {
+            $result = $this->call(MethodEnum::GET, 'orders/' . $orderId, null, ['Content-Type' => 'application/json']);
+
+            return $this->hidrateResource($result);
+
+        } catch (Exception $e) {
+            throw new PagSeguroApiException($e->getMessage());
+        }
+    }
+
 
     /* SUPPORT METHODS */
 
