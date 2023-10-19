@@ -3,28 +3,16 @@ declare(strict_types=1);
 
 namespace CanisLupus\ApiClients\PagSeguro\v1\Handlers;
 
-use CanisLupus\ApiClients\PagSeguro\v1\Enums\ChargeStatusEnum;
 use CanisLupus\ApiClients\PagSeguro\v1\Enums\MethodEnum;
-use CanisLupus\ApiClients\PagSeguro\v1\Enums\PaymentMethodEnum;
 use CanisLupus\ApiClients\PagSeguro\v1\Enums\RelEnum;
 use CanisLupus\ApiClients\PagSeguro\v1\Exceptions\PagSeguroApiException;
 use CanisLupus\ApiClients\PagSeguro\v1\PagSeguroApiConfig;
 use CanisLupus\ApiClients\PagSeguro\v1\PagSeguroApiHandler;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\AddressResource;
-use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\AmountResource;
-use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\BoletoResource;
-use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\CardResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\CustomerResource;
-use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\HolderResource;
-use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\InstructionLinesResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\ItemResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\LinkResource;
-use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\PaymentMethodResource;
-use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\PaymentResponseResource;
-use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\RawDataResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\ShippingResource;
-use CanisLupus\ApiClients\PagSeguro\v1\Resources\Common\SummaryResource;
-use CanisLupus\ApiClients\PagSeguro\v1\Resources\Orders\ChargeResource;
 use CanisLupus\ApiClients\PagSeguro\v1\Resources\Orders\OrderResource;
 use DateTime;
 use Exception;
@@ -116,121 +104,7 @@ class OrdersHandler extends PagSeguroApiHandler
         if (isset($data['charges'])) {
             $charges = [];
             foreach ($data['charges'] as $chargeData) {
-                $charge = new ChargeResource();
-                $charge->setId($chargeData['id'] ?? null);
-                $charge->setReferenceId($chargeData['reference_id'] ?? null);
-                $charge->setStatus(ChargeStatusEnum::tryFrom($chargeData['status']));
-                $charge->setCreatedAt(new DateTime($chargeData['created_at']));
-                $charge->setDescription($chargeData['description'] ?? null);
-
-                if (isset($chargeData['paid_at'])) {
-                    $charge->setPaidAt(new DateTime($chargeData['paid_at']));
-                }
-
-                if (isset($chargeData['amount'])) {
-                    $amountData = $chargeData['amount'];
-                    $amount = new AmountResource($amountData['value'], $amountData['currency']);
-
-                    if (isset($amountData['summary'])) {
-                        $summaryData = $amountData['summary'];
-                        $summary = new SummaryResource($summaryData['total'], $summaryData['paid'], $summaryData['refunded']);
-                        $amount->setSummary($summary);
-                    }
-
-                    $charge->setAmount($amount);
-                }
-
-                if (isset($chargeData['payment_response'])) {
-                    $paymentResponseData = $chargeData['payment_response'];
-                    $paymentResponse = new PaymentResponseResource();
-                    $paymentResponse->setCode($paymentResponseData['code'] ?? null);
-                    $paymentResponse->setMessage($paymentResponseData['message'] ?? null);
-                    $paymentResponse->setReference($paymentResponseData['reference'] ?? null);
-
-                    if (isset($paymentResponseData['raw_data'])) {
-                        $rawDataData = $paymentResponseData['raw_data'];
-                        $rawData = new RawDataResource();
-                        $rawData->setAuthorizationCode($rawDataData['authorization_code'] ?? null);
-                        $rawData->setNsu($rawDataData['nsu'] ?? null);
-                        $rawData->setReasonCode($rawDataData['reason_code'] ?? null);
-
-                        $paymentResponse->setRawData($rawData);
-                    }
-
-                    $charge->setPaymentResponse($paymentResponse);
-                }
-
-                if (isset($chargeData['payment_method'])) {
-                    $paymentMethodData = $chargeData['payment_method'];
-                    $paymentMethod = new PaymentMethodResource(PaymentMethodEnum::from($paymentMethodData['type']));
-                    $paymentMethod->setInstallments($paymentMethodData['installments'] ?? null);
-                    $paymentMethod->setCapture($paymentMethodData['capture'] ?? true);
-                    $paymentMethod->setSoftDescriptor($paymentMethodData['soft_descriptor'] ?? null);
-
-                    if (isset($paymentMethodData['card'])) {
-                        $cardData = $paymentMethodData['card'];
-                        $card = new CardResource();
-                        $card->setBrand($cardData['brand'] ?? null);
-                        $card->setFirstDigits($cardData['first_digits'] ?? null);
-                        $card->setLastDigits($cardData['last_digits'] ?? null);
-                        $card->setExpMonth($cardData['exp_month'] ?? null);
-                        $card->setExpYear($cardData['exp_year'] ?? null);
-                        $card->setStore($cardData['store'] ?? null);
-
-                        if (isset($cardData['holder'])) {
-                            $holderData = $cardData['holder'];
-                            $holder = new HolderResource($holderData['name']);
-                            $holder->setTaxId($holderData['tax_id'] ?? null);
-
-                            $card->setHolder($holder);
-                        }
-
-                        $paymentMethod->setCard($card);
-                    }
-
-                    if (isset($paymentMethodData['boleto'])) {
-                        $boletoData = $paymentMethodData['boleto'];
-                        $boleto = new BoletoResource();
-                        $boleto->setId($boletoData['id'] ?? null);
-                        $boleto->setBarcode($boletoData['barcode'] ?? null);
-                        $boleto->setFormattedBarcode($boletoData['formatted_barcode'] ?? null);
-                        $boleto->setDueDate($boletoData['due_date'] ?? null);
-                        $boleto->setInstructionLines(
-                            (new InstructionLinesResource())
-                                ->setLine1($boletoData['instruction_lines']['line_1'] ?? null)
-                                ->setLine2($boletoData['instruction_lines']['line_2'] ?? null)
-                        );
-
-                        if (isset($boletoData['holder'])) {
-                            $holderData = $boletoData['holder'];
-                            $holder = new HolderResource($holderData['name']);
-                            $holder->setTaxId($holderData['tax_id'] ?? null);
-                            $holder->setEmail($holderData['email'] ?? null);
-
-                            $boleto->setHolder($holder);
-                        }
-
-                        $paymentMethod->setBoleto($boleto);
-                    }
-
-                    $charge->setPaymentMethod($paymentMethod);
-                }
-
-                if (isset($chargeData['links'])) {
-                    $links = [];
-                    foreach ($chargeData['links'] as $linkData) {
-                        $links[] = new LinkResource(
-                            RelEnum::from($linkData['rel']),
-                            $linkData['href'],
-                            $linkData['media'],
-                            MethodEnum::from($linkData['type'])
-                        );
-                    }
-
-                    $charge->setLinks($links);
-                }
-
-                $charges[] = $charge;
+                $charges[] = ChargesHandler::hidrateResource($chargeData);;
             }
 
             $order->setCharges($charges);

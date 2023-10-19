@@ -29,8 +29,6 @@ $clientPagSeguro = new PagSeguroApiClient(
 );
 
 try {
-    // Create
-
     // Criar pedido passando um objeto OrderResource construído
     $orderResource = new OrderResource();
     $orderResource->setReferenceId('ex-00001');

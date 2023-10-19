@@ -47,17 +47,18 @@ class PagSeguroApiHandler
      * @return array
      * @throws PagSeguroApiException
      */
-    protected function call(MethodEnum $method, string $endpoint, array $params = null): array
+    protected function call(MethodEnum $method, string $endpoint, array $params = null, array $headers = null): array
     {
         $endpoint = $this->baseEndpoint . $endpoint;
 
         try {
             $guzzleClient = new Client();
 
-            $headers = [
+            $headers = $headers ?? [
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json'
             ];
+
 
             if ($this->config->getToken()) {
                 $headers['Authorization'] = 'Bearer ' . $this->config->getToken();
@@ -90,7 +91,11 @@ class PagSeguroApiHandler
                     }
                     $message = substr($message, 0, strlen($message)-3);
                 } else {
-                    $message = 'The API returned no message, maybe an Authentication failure';
+                    if ($e->getMessage()) {
+                        $message = $e->getMessage();
+                    }else{
+                        $message = 'The API returned no message, maybe an Authentication failure';
+                    }
                 }
 
                 throw (new PagSeguroApiException($message));

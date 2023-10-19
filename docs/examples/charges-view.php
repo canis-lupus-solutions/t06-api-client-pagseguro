@@ -18,14 +18,12 @@ $clientPagSeguro = new PagSeguroApiClient(
 );
 
 try {
-    // Calculate Fees
-    $creditCardBin = 552100; // Primeiros 6 dígitos do número do cartão de crédito
-    $value = 10000; // Valor como inteiro, representa R$ 100,00
-    $maxInstallments = 10; // Quantidade máxima de parcelas
-    $maxInstallmentsNoInterest = 4; // Número de parcelas sem juros
-
-    $creditCardFees = $clientPagSeguro->charges->calculateFees($creditCardBin, $value, $maxInstallments, $maxInstallmentsNoInterest);
-
+    // Consultar Pagamento
+    $charge = $clientPagSeguro->charges->view('CHAR_A83C8141-B843-4E27-BFD9-C096E7AA6E4C');
+    echo "<pre>";
+    var_dump($charge);
+    echo "</pre>";
+    die;
 
 } catch (PagSeguroApiException $e) {
     die($e->getMessage());

@@ -25,7 +25,6 @@ use CanisLupus\ApiClients\PagSeguro\v1\Resources\Orders\OrderResource;
 require('../../vendor/autoload.php');
 
 $token = '#TOKEN#';
-$token = '347097CF81FC454B9573BB30E248E709';
 
 $clientPagSeguro = new PagSeguroApiClient(
     new PagSeguroApiConfig(EnvironmentEnum::Sandbox, $token)
@@ -33,7 +32,6 @@ $clientPagSeguro = new PagSeguroApiClient(
 
 try {
     // Criar e pegar pedido com Boleto
-
     $orderResource = new OrderResource();
     $orderResource->setReferenceId('ex-00001');
     $orderResource->setCustomer(new CustomerResource(
